@@ -10,10 +10,53 @@ This is a startup project to test some of the data science tools on stock data i
 - `pip3 install -r requirements`
 - make sure you have all the requirements installed into the python3
 
-## Lesson 1: Read data from file into the pandadata frame
+<details>
+  <summary>## Lesson 1: Read data from file into the pandadata frame</summary> 
+  ## Heading
+  1. A numbered
+  2. list
+     * With some
+     * Sub bullets
+</details>
 
-## Lesson 2: Visualize Data in matplotlib
-## Lesson 3: EXport selected Data in CSV
-## Lesson 4: Sort Stock Symbols by Volume
-## Lesson 5: Fit data with linear models
-## Lesson 6: Download data from API
+<details>
+  <summary>## Lesson 2: Visualize Data in matplotlib</summary> 
+  ## Heading
+  1. A numbered
+  2. list
+     * With some
+     * Sub bullets
+</details>
+<details>
+  <summary>## Lesson 3: Export selected Data in CSV</summary> 
+  ## Heading
+  1. A numbered
+  2. list
+     * With some
+     * Sub bullets
+</details>
+<details>
+  <summary>## Lesson 4: Sort Stock Symbols by Volume</summary> 
+  ## Heading
+  1. A numbered
+  2. list
+     * With some
+     * Sub bullets
+</details>
+<details>
+  <summary>## Lesson 5: Fit data with linear models</summary> 
+  ## Heading
+  1. A numbered
+  2. list
+     * With some
+     * Sub bullets
+</details>
+<details>
+  <summary>## Lesson 6: Download data from API</summary> 
+  ## Heading
+  1. A numbered
+  2. list
+     * With some
+     * Sub bullets
+</details>
+
