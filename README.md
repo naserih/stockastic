@@ -11,52 +11,76 @@ This is a startup project to test some of the data science tools on stock data i
 - make sure you have all the requirements installed into the python3
 
 <details>
-  <summary>## Lesson 1: Read data from file into the pandadata frame</summary> 
+  
+  <summary>
+    
+    ## Lesson 1: Read data from file into the pandadata frame
+    
+    </summary> 
+    
   ## Heading
+  
   1. A numbered
   2. list
      * With some
      * Sub bullets
+
 </details>
 
 <details>
-  <summary>## Lesson 2: Visualize Data in matplotlib</summary> 
-  ## Heading
-  1. A numbered
-  2. list
-     * With some
-     * Sub bullets
+  
+  <summary>
+  
+  ## Lesson 2: Visualize Data in matplotlib
+  
+  </summary> 
+  
 </details>
+
 <details>
-  <summary>## Lesson 3: Export selected Data in CSV</summary> 
+  
+  <summary>
+  
+  ## Lesson 3: Export selected Data in CSV
+  
+  </summary> 
+  
   ## Heading
-  1. A numbered
-  2. list
-     * With some
-     * Sub bullets
+
 </details>
+
 <details>
-  <summary>## Lesson 4: Sort Stock Symbols by Volume</summary> 
-  ## Heading
-  1. A numbered
-  2. list
-     * With some
-     * Sub bullets
+  
+  <summary>
+    ## Lesson 4: Sort Stock Symbols by Volume
+</summary> 
+
 </details>
+
 <details>
-  <summary>## Lesson 5: Fit data with linear models</summary> 
-  ## Heading
-  1. A numbered
-  2. list
-     * With some
-     * Sub bullets
+
+<summary>
+  
+  ## Lesson 5: Fit data with linear models
+  
+  </summary> 
+
 </details>
+
 <details>
-  <summary>## Lesson 6: Download data from API</summary> 
+
+<summary>
+  
+  ## Lesson 6: Download data from API
+  
+  </summary> 
+  
   ## Heading
+  
   1. A numbered
   2. list
      * With some
      * Sub bullets
+
 </details>
 
