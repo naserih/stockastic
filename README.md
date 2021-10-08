@@ -24,15 +24,16 @@ mypath = ""
 onlyfiles = [f for f in os.listdir(mypath) if ".csv" in f]
 ```
   Then create a dictionary with ticker name as key and full file path to the csv file as value. You can do something like.
-  ```
-  ticker_dic = {}
-  for filename in onlyfiles:
-    ticker_dic[filename[:-4]] = os.path.join(mypath, filename)
+```
+ticker_dic = {}
+for filename in onlyfiles:
+  ticker_dic[filename[:-4]] = os.path.join(mypath, filename)
 ```
   2. Write function to read a CSV file for a given ticker as a panda dataframe. [HELP](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.read_csv.html)
-    ```
-  import pandas as pd
-  pd.read_csv("full_path_to_csv_file")
+  
+``` 
+import pandas as pd
+pd.read_csv("full_path_to_csv_file")
 ```
   3. Write a function to return the `mean` of the stock `Volumes` for a input ticker.
   
