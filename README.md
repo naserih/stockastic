@@ -33,12 +33,12 @@ for filename in onlyfiles:
   
 ``` 
 import pandas as pd
-pd.read_csv("full_path_to_csv_file")
+df = pd.read_csv("full_path_to_csv_file")
 ```
-  3. Write a function to return the `mean` of the stock `Volumes` for a input ticker.
+  3. Write a function to return the `mean` of the stock `Volumes` for a input ticker. `df.mean(axis=0)`
   
   ```
-  function(ticker):
+  def get_mean_volume(ticker):
     mean_volume = ... //finds mean volume
     return mean_volume
   ```
