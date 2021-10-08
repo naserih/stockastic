@@ -1,0 +1,20 @@
+django
+gunicorn 
+whitenoise 
+dj-database-url 
+psycopg2
+python-dotenv 
+whitenoise
+django-heroku
+google-api-python-client
+matplotlib
+Cython
+pandas
+scikit-learn
+# tensorflow
+keras
+pystan
+fbprophet
+pyramid
+pyramid-arima
+import_env_file
