@@ -27,7 +27,7 @@ onlyfiles = [f for f in os.listdir(mypath) if ".csv" in f]
 ```
 ticker_dic = {}
 for filename in onlyfiles:
-  ticker_dic[filename[:-4]] = os.path.join(mypath, filename)
+  ticker_dic[filename[:-4]] = ('filepath':os.path.join(mypath, filename)}
 ```
   2. Write function to read a CSV file for a given ticker as a panda dataframe. [HELP](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.read_csv.html)
   
@@ -42,15 +42,27 @@ df = pd.read_csv("full_path_to_csv_file")
     mean_volume = ... //finds mean volume
     return mean_volume
   ```
-  4. Modify the function to return the `mean` of the last 60 stock volumes.
+  4. Modify the function to add the mean_volume into the ticker_dic.
+  ```
+    ticker_dic[ticker]['mean_volume'] = mean_volume
+
+  ```
   5. Save stock ticker and mean volume as a tupple and push it into a array.
   
   ```
-  array = []
-  array.push((ticker, mean_volume))
+  volume_array = []
+  volume_array.push((ticker, mean_volume))
   ```
-  5. sort the array by volume 
-  6. Write a function to write top 100 stockes with their mean volumes into a csv file 
+  5. sort the array by volume and add the ticker order to the ticker_dic
+  ```
+  sorted_by_volume = sorted(ticker_dic, key=lambda k: ticker_dic[k]['mean_volume'], reverse=True)
+  # check to make sure it is working 
+  print (sorted_by_volume)
+  for i in range(len(sorted_by_volume)):
+      ticker = sorted_by_volume[i]
+      order_volume = i
+      ticker_dic[ticker]['order_volume'] = order_volume
+  ```
  </details>
 
 ## Lesson 2: Visualize Data in matplotlib
