@@ -14,10 +14,10 @@ This is a startup project to test some of the data science tools on stock data i
 - Learn about TSX stock tickers and daily stock prices (open, close) and volume. 
 
 ## Lesson 1: Read data from file into the pandadata frame
-
+In this lesson we are going build a python script to read TSX historical stock prices (2019-2020) and sort the stock tickers according to their average volume.
 <details>
 <summary> Read data from CSV file ...   </summary>   
-  0. data directory contains daily stock values for TSX stocks for year 2019. Files names are stock tickers. Open some of the csv files and check the data structure. In this lesson we are going to open these files in the python and sort the stockes according to their average volume.
+  0. data directory contains daily stock values for TSX stocks for year 2019-2020. Files names are stock tickers. Open a couple of the csv files and check the data structure.
   
   1. Use python to list all the CSV files (stock tickers) from `./data/TSX/20190222`
 ```
