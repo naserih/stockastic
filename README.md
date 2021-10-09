@@ -11,11 +11,13 @@ This is a startup project to test some of the data science tools on stock data i
 - make a new gir branch `git checkout -b lesson1`
 - `pip3 install -r requirements`
 - make sure you have all the requirements installed into the python3
+- Learn about TSX stock tickers and daily stock prices (open, close) and volume. 
 
 ## Lesson 1: Read data from file into the pandadata frame
 
 <details>
 <summary> Read data from CSV file ...   </summary>   
+  0. data directory contains daily stock values for TSX stocks for year 2019. Files names are stock tickers. Open some of the csv files and check the data structure. In this lesson we are going to open these files in the python and sort the stockes according to their average volume.
   
   1. Use python to list all the CSV files (stock tickers) from `./data/TSX/20190222`
 ```
