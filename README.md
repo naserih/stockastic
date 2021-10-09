@@ -11,11 +11,13 @@ This is a startup project to test some of the data science tools on stock data i
 - make a new gir branch `git checkout -b lesson1`
 - `pip3 install -r requirements`
 - make sure you have all the requirements installed into the python3
+- Learn about TSX stock tickers and daily stock prices (open, close) and volume. 
 
 ## Lesson 1: Read data from file into the pandadata frame
-
+In this lesson we are going build a python script to read TSX historical stock prices (2019-2020) and sort the stock tickers according to their average volume.
 <details>
 <summary> Read data from CSV file ...   </summary>   
+  0. data directory contains daily stock values for TSX stocks for year 2019-2020. Files names are stock tickers. Open a couple of the csv files and check the data structure.
   
   1. Use python to list all the CSV files (stock tickers) from `./data/TSX/20190222`
 ```
@@ -23,23 +25,40 @@ import os
 mypath = ""
 onlyfiles = [f for f in os.listdir(mypath) if ".csv" in f]
 ```
+  Then create a dictionary with ticker name as key and full file path to the csv file as value. You can do something like.
+```
+ticker_dic = {}
+for filename in onlyfiles:
+  ticker_dic[filename[:-4]] = ('filepath':os.path.join(mypath, filename)}
+```
   2. Write function to read a CSV file for a given ticker as a panda dataframe. [HELP](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.read_csv.html)
-  3. Write a function to return the `mean` of the stock `Volumes` for a input ticker.
+  
+``` 
+import pandas as pd
+df = pd.read_csv("full_path_to_csv_file")
+```
+  3. Write a function to return the `mean` of the stock `Volumes` for a input ticker. `df.mean(axis=0)`
   
   ```
-  function(ticker):
+  def get_mean_volume(ticker):
     mean_volume = ... //finds mean volume
     return mean_volume
   ```
-  4. Modify the function to return the `mean` of the last 60 stock volumes.
-  5. Save stock ticker and mean volume as a tupple and push it into a array.
-  
+  4. Modify the function to add the mean_volume into the ticker_dic.
   ```
-  array = []
-  array.push((ticker, mean_volume))
+    ticker_dic[ticker]['mean_volume'] = mean_volume
+
   ```
-  5. sort the array by volume 
-  6. Write a function to write top 100 stockes with their mean volumes into a csv file 
+  5. sort tickers by their mean_volume and add the ticker order to the ticker_dic
+  ```
+  sorted_by_volume = sorted(ticker_dic, key=lambda k: ticker_dic[k]['mean_volume'], reverse=True)
+  # check to make sure it is working 
+  print (sorted_by_volume)
+  for i in range(len(sorted_by_volume)):
+      ticker = sorted_by_volume[i]
+      order_volume = i
+      ticker_dic[ticker]['order_volume'] = order_volume
+  ```
  </details>
 
 ## Lesson 2: Visualize Data in matplotlib
