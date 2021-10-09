@@ -17,8 +17,21 @@ This is a startup project to test some of the data science tools on stock data i
 In this lesson we are going build a python script to read TSX historical stock prices (2019-2020) and sort the stock tickers according to their average volume.
 <details>
 <summary> Read data from CSV file ...   </summary>   
-  0. data directory contains daily stock values for TSX stocks for year 2019-2020. Files names are stock tickers. Open a couple of the csv files and check the data structure.
   
+  0. data directory contains daily stock values for TSX stocks for year 2019-2020. Files names are stock tickers. Open a couple of the csv files and check the data structure. We are going to create a ticker dictionary containing file path and stock details. 
+```
+  ticker_dic = {'<TIKER_0>' : {
+                              'FILE_PATH': '<full_path_to_ticker_0_file>'},
+                              'mean_volume' : xx,
+                              'order_volume' : xx,
+                              },
+                 '<TIKER_1>' : {
+                              'FILE_PATH': '<full_path_to_ticker_1_file>'},
+                              'mean_volume' : xx,
+                              'order_volume' : xx,
+                              }
+```
+  later we will add fore data into the ticker dictionary.
   1. Use python to list all the CSV files (stock tickers) from `./data/TSX/20190222`
 ```
 import os
@@ -29,13 +42,16 @@ onlyfiles = [f for f in os.listdir(mypath) if ".csv" in f]
 ```
 ticker_dic = {}
 for filename in onlyfiles:
-  ticker_dic[filename[:-4]] = ('filepath':os.path.join(mypath, filename)}
+  ticker_dic[filename[:-4]] = {'filepath':os.path.join(mypath, filename)}
 ```
   2. Write function to read a CSV file for a given ticker as a panda dataframe. [HELP](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.read_csv.html)
   
 ``` 
 import pandas as pd
-df = pd.read_csv("full_path_to_csv_file")
+  import json
+df = pd.read_csv("full_path_to_csv_file", header=0,sep=",", thousands=',', index_col=None, parse_dates=['Date'])
+if len(df['Volume']) == 0:
+  del ticker_dic[ticker]
 ```
   3. Write a function to return the `mean` of the stock `Volumes` for a input ticker. `df.mean(axis=0)`
   
@@ -62,8 +78,22 @@ df = pd.read_csv("full_path_to_csv_file")
  </details>
 
 ## Lesson 2: Visualize Data in matplotlib
+In this lesson we will add stock `open` and `close` arrays into the `ticker_dic` and plot stock values for some of high volume tickers.
 <details> 
-  <summary>Visualize Data in matplotlib  </summary> 
+<summary>Visualize Data in matplotlib  </summary> 
+
+  1. Similar to the previous lesson, add `median_volume` and `order_median_volume` into the ticker dictionary.
+  
+  2. Create panda array with ticker's `order_median_volume`, `order_mean_volume`, `median_volume`, and `mean_volume`.
+ 
+```
+df = pd.DataFrame(tickers_dic.values())
+```
+  3. plot stock `mean_volume` and `median_volume` vs `order_volume`
+ 
+```
+ df.plot(x='order_median_volume', y='median_volume')
+```
   ###
 </details>
 
