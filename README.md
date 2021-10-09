@@ -49,13 +49,7 @@ df = pd.read_csv("full_path_to_csv_file")
     ticker_dic[ticker]['mean_volume'] = mean_volume
 
   ```
-  5. Save stock ticker and mean volume as a tupple and push it into a array.
-  
-  ```
-  volume_array = []
-  volume_array.push((ticker, mean_volume))
-  ```
-  5. sort the array by volume and add the ticker order to the ticker_dic
+  5. sort tickers by their mean_volume and add the ticker order to the ticker_dic
   ```
   sorted_by_volume = sorted(ticker_dic, key=lambda k: ticker_dic[k]['mean_volume'], reverse=True)
   # check to make sure it is working 
