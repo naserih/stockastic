@@ -76,17 +76,20 @@ df = pd.read_csv("full_path_to_csv_file")
 ## Lesson 2: Visualize Data in matplotlib
 In this lesson we will add stock `open` and `close` arrays into the `ticker_dic` and plot stock values for some of high volume tickers.
 <details> 
-  <summary>Visualize Data in matplotlib  </summary> 
-  1. Similar to the previous lesson, add 'median_volume' and 'order_median_volume' into the ticker dictionary.
-  2. Create panda array with ticker's `order_median_volume`,`order_mean_volume`, `median_volume`, and `mean_volume`
+<summary>Visualize Data in matplotlib  </summary> 
 
-  ```
-  df = pd.DataFrame(<>)
-  ```
+  1. Similar to the previous lesson, add `median_volume` and `order_median_volume` into the ticker dictionary.
+  
+  2. Create panda array with ticker's `order_median_volume`, `order_mean_volume`, `median_volume`, and `mean_volume`.
+ 
+```
+df = pd.DataFrame(tickers_dic.values())
+```
   3. plot stock `mean_volume` and `median_volume` vs `order_volume`
-  ```
-  df.plot(x='order_median_volume', y='median_volume')
-  ```
+ 
+```
+ df.plot(x='order_median_volume', y='median_volume')
+```
   ###
 </details>
 
