@@ -17,8 +17,9 @@ This is a startup project to test some of the data science tools on stock data i
 In this lesson we are going build a python script to read TSX historical stock prices (2019-2020) and sort the stock tickers according to their average volume.
 <details>
 <summary> Read data from CSV file ...   </summary>   
+  
   0. data directory contains daily stock values for TSX stocks for year 2019-2020. Files names are stock tickers. Open a couple of the csv files and check the data structure. We are going to create a ticker dictionary containing file path and stock details. 
-  ```
+```
   ticker_dic = {'<TIKER_0>' : {
                               'FILE_PATH': '<full_path_to_ticker_0_file>'},
                               'mean_volume' : xx,
@@ -29,7 +30,7 @@ In this lesson we are going build a python script to read TSX historical stock p
                               'mean_volume' : xx,
                               'order_volume' : xx,
                               }
-  ```
+```
   later we will add fore data into the ticker dictionary.
   1. Use python to list all the CSV files (stock tickers) from `./data/TSX/20190222`
 ```
@@ -47,7 +48,10 @@ for filename in onlyfiles:
   
 ``` 
 import pandas as pd
+  import json
 df = pd.read_csv("full_path_to_csv_file", header=0,sep=",", thousands=',', index_col=None, parse_dates=['Date'])
+if len(df['Volume']) == 0:
+  del ticker_dic[ticker]
 ```
   3. Write a function to return the `mean` of the stock `Volumes` for a input ticker. `df.mean(axis=0)`
   
