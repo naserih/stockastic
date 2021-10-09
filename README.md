@@ -47,7 +47,7 @@ for filename in onlyfiles:
   
 ``` 
 import pandas as pd
-df = pd.read_csv("full_path_to_csv_file")
+df = pd.read_csv("full_path_to_csv_file", header=0,sep=",", thousands=',', index_col=None, parse_dates=['Date'])
 ```
   3. Write a function to return the `mean` of the stock `Volumes` for a input ticker. `df.mean(axis=0)`
   
