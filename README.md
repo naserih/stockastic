@@ -29,7 +29,7 @@ onlyfiles = [f for f in os.listdir(mypath) if ".csv" in f]
 ```
 ticker_dic = {}
 for filename in onlyfiles:
-  ticker_dic[filename[:-4]] = ('filepath':os.path.join(mypath, filename)}
+  ticker_dic[filename[:-4]] = {'filepath':os.path.join(mypath, filename)}
 ```
   2. Write function to read a CSV file for a given ticker as a panda dataframe. [HELP](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.read_csv.html)
   
@@ -62,6 +62,7 @@ df = pd.read_csv("full_path_to_csv_file")
  </details>
 
 ## Lesson 2: Visualize Data in matplotlib
+In this lesson we will add stock `open` and `close` arrays into the `ticker_dic` and plot stock values for some of high volume tickers.
 <details> 
   <summary>Visualize Data in matplotlib  </summary> 
   ###
