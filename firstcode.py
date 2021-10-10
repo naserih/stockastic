@@ -2,6 +2,7 @@ import sys
 import os
 import pandas as pd
 import numpy as np
+from datetime import datetime,time, timedelta, date
 import matplotlib
 import matplotlib.pyplot as plt
 font = {'family' : 'normal',
@@ -26,7 +27,8 @@ tickers_dic = get_tickers_dic(database_path)
 # print (tickers_dic)
 for ticker  in tickers_dic:
 	full_file_path = os.path.join(database_path,ticker)+'.csv'
-	df = pd.read_csv(full_file_path,thousands=',', header=0, sep=',', index_col=None)
+	df = pd.read_csv(full_file_path,thousands=',', header=0, sep=',', index_col=None,)
+	tickers_dic[ticker]['df'] = df
 	if len(df['Volume']) == 0:
 		tickers_dic[ticker]['mean_volume'] = 0
 		tickers_dic[ticker]['median_volume'] = 0
@@ -50,24 +52,36 @@ sorted_median_by_volume = sorted(tickers_dic, key=lambda k: tickers_dic[k]['medi
 for i in range(len(sorted_median_by_volume)):
 	ticker = sorted_median_by_volume[i]
 	order_median_volume = i
-	print(i, ' < ',ticker, ' > ', tickers_dic[ticker]['median_volume'])
+	# print(i, ' < ',ticker, ' > ', tickers_dic[ticker]['median_volume'])
 	tickers_dic[ticker]['order_median_volume'] = order_median_volume
 
 
 # print(tickers_dic)
-df = pd.DataFrame(tickers_dic.values())
-print(df.keys())
-ax=df.plot.scatter(x='order_median_volume', 
-	y='median_volume', 
-	c='blue'
-	)
-df.plot.scatter(x='order_median_volume', 
-	y='mean_volume', 
-	c='red', ax=ax
-	)
-plt.legend(['median_volume', 'mean_volume'])
-plt.show()
+# df = pd.DataFrame(tickers_dic.values())
+# # print(df.keys())
+# ax=df.plot.scatter(x='order_median_volume', 
+# 	y='median_volume', 
+# 	c='blue'
+# 	)
+# df.plot.scatter(x='order_median_volume', 
+# 	y='mean_volume', 
+# 	c='red', ax=ax
+# 	)
+# plt.legend(['median_volume', 'mean_volume'])
+# plt.show()
+
+# def get_sotck_values(ticker, header):
+# 	full_file_path = tickers_dic[ticker]['file_path']
+# 	df = pd.read_csv(full_file_path,thousands=',', header=0, sep=',', index_col=None)
+# 	value_array = df[header]
+# 	return value_array
  
 
-
+# value = get_sotck_values('AC.TO', 'Adj. Close')
+index = 'Adj. Close'
+df = tickers_dic['AC.TO']['df']
+df['Date'] = pd.to_datetime(df['Date'])
+filtered_df = df[(df['Date']>datetime(2016,1,1)) & (df['Date']<datetime(2016,3,1))]
+plt.plot(filtered_df['Date'], filtered_df[index])
+plt.show()
 
