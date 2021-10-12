@@ -97,9 +97,24 @@ df = pd.DataFrame(tickers_dic.values())
   ###
 </details>
 
-## Lesson 3: Export selected Data in CSV
+## Lesson 3: Compare Open and Close values
+In this lesson we will work with stock Open and Close values. We will investigate the corrolation between Close and Open values of a stock.
 <details>
-  <summary>Export selected Data in CSV...  </summary> 
+  <summary>Compare stock Open to its previous Close    </summary> 
+  1. For a given ticker in `tickers_dic` calculate the ratio between `Adj. Close` and `Open` for each row and store them as a new column `C/O`.
+  2. calculate the ratio between `Open` and the previous day's `Adj. Close` values for each row and store them as a new column `O/C`.
+  3. Plot `O/C` vs `C/O`
+ 
+```
+
+ticker = 'AC.TO'
+close_open_ratio = tickers_dic[ticker]['df']['Adj. Close'] / tickers_dic[ticker]['df']['Open'] 
+tickers_dic[ticker]['df']['C/O'] = close_open_ratio
+open_close_ratio =   tickers_dic[ticker]['df']['Open'] / tickers_dic[ticker]['df']['Adj. Close'].shift(1)
+tickers_dic[ticker]['df']['O/C'] = open_close_ratio
+df.plot(x='C/O', y='O/C')
+```
+  
 </details>
 
 ## Lesson 3: Export selected Data in CSV
