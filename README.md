@@ -117,7 +117,7 @@ df.plot(x='C/O', y='O/C')
   
 </details>
 
-## Lesson 3: Export selected Data in CSV
+## Lesson 4: Export selected Data in CSV
 <details>
   <summary> Sort Stock Symbols by Volume </summary> 
 </details>
