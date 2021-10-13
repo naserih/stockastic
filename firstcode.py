@@ -78,10 +78,49 @@ for i in range(len(sorted_median_by_volume)):
  
 
 # value = get_sotck_values('AC.TO', 'Adj. Close')
-index = 'Adj. Close'
-df = tickers_dic['AC.TO']['df']
-df['Date'] = pd.to_datetime(df['Date'])
-filtered_df = df[(df['Date']>datetime(2016,1,1)) & (df['Date']<datetime(2016,3,1))]
-plt.plot(filtered_df['Date'], filtered_df[index])
-plt.show()
+# index = 'Adj. Close'
+# df = tickers_dic['AC.TO']['df']
+# print(df.keys())
+# df['Date'] = pd.to_datetime(df['Date'])
+# filtered_df = df[(df['Date']>datetime(2016,1,1)) & (df['Date']<datetime(2016,3,1))]
+# plt.plot(filtered_df['Date'], filtered_df[index])
+# plt.show()
 
+def plot_open_close_ratio(tickers_dic, ticker):
+	# read dataframe for a given ticker
+	df = tickers_dic[ticker]['df']
+	# calculates the ratio of close to open
+	close_open_ratio = df['Adj. Close'] / df['Open'] 
+	# adds a new colomn as C/O
+	df['C/O'] = close_open_ratio
+	# calculates the ratio of open to close of the previous day
+	open_close_ratio =   df['Open'] / df['Adj. Close'].shift(1)
+	open_open_ratio =   df['Open'] / df['Open'].shift(1)
+
+	# adds a new colomn as O/C
+	df['O/C'] = open_close_ratio
+	df['O/O'] = open_open_ratio
+	#
+	df.plot.scatter(x='C/O', y='O/C',c='blue' , title=ticker)
+	df.plot.scatter(x='C/O', y='O/O',c='red' , title=ticker)
+
+	# plt.show()
+	plt.savefig(ticker+'.png')
+
+
+def plot_volume_close(tickers_dic, ticker):
+	# read dataframe for a given ticker
+	df = tickers_dic[ticker]['df']
+	shift = 10
+	pre_volume = df['Volume'].shift(shift)
+	df['Pre. Volume'] = pre_volume
+	plt.rcParams["figure.figsize"] = [18, 10]
+	df.plot.scatter(x='Pre. Volume', y='Adj. Close',c='blue' , title=ticker+' '+str(shift))
+	# plt.show()
+	plt.savefig('plots/'+ticker+'_'+str(shift)+'.png')
+# ticker = 'AC.TO'
+SCAN_RANGE = 10
+for ticker in sorted_median_by_volume[:SCAN_RANGE]:
+	print (ticker)
+	# plot_open_close_ratio(tickers_dic, ticker)
+	plot_volume_close(tickers_dic, ticker)
