@@ -97,9 +97,12 @@ def compare_stocks(tickers_dic, fixed_ticker, moving_ticker, moving_shift, compa
 	df_fix_nrm, fix_z_params = z_score(df_fix, ['Adj. Close'])
 	df_mov_nrm, mov_z_params = z_score(df_mov, ['Adj. Close'])
 	print(len(df_fix_nrm), len(df_mov_nrm))
-	today_index = np.argmin(abs(df_fix_nrm['Date']-today_date))
-	# near_todays_date = df_fix['Date'][today_index]
-	# print(near_todays_date, today_date)
+	today_fix_index = np.argmin(abs(df_fix_nrm['Date']-today_date))
+	today_mov_index = np.argmin(abs(df_mov_nrm['Date']-today_date))
+	near_todays_fix_date = df_fix['Date'][today_fix_index-160]
+	near_todays_mov_date = df_mov['Date'][today_mov_index-160]
+	
+	print(near_todays_fix_date, near_todays_mov_date)
 	# print (df_mov_nrm['Adj. Close'])	
 	# ax1 = plt.subplot(211)
 	# ax1.hist(df_mov_nrm['Adj. Close'],bins=100)
@@ -107,12 +110,15 @@ def compare_stocks(tickers_dic, fixed_ticker, moving_ticker, moving_shift, compa
 	# ax1 = plt.subplot(212)
 	# ax1.plot(df_mov['Date'], df_mov['Adj. Close'])
 	# plt.show()
-	cropped_df_fix = df_fix_nrm['Adj. Close'][today_index-compare_range:today_index+1]
-	cropped_df_mov = df_mov_nrm['Adj. Close'][today_index-compare_range-moving_shift:today_index-moving_shift+1]
+	cropped_close_fix = df_fix_nrm['Adj. Close'][today_fix_index-compare_range:today_fix_index+1]
+	cropped_close_mov = df_mov_nrm['Adj. Close'][today_mov_index-compare_range-moving_shift:today_mov_index-moving_shift+1]
+	cropped_date_fix = df_fix_nrm['Date'][today_fix_index-compare_range:today_fix_index+1]
+	cropped_date_mov = df_mov_nrm['Date'][today_mov_index-compare_range-moving_shift:today_mov_index-moving_shift+1]
+
 
 	ax1 = plt.subplot(211)
 	# ax1.hist(df_mov_nrm['Adj. Close'],bins=100)
-	ax1.plot(cropped_df_fix)
+	ax1.plot(cropped_date_fix, cropped_close_fix)
 	ax1 = plt.subplot(212)
-	ax1.plot(cropped_df_mov)
+	ax1.plot(cropped_date_mov, cropped_close_mov)
 	plt.show()
