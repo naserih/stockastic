@@ -157,12 +157,39 @@ df.plot(x='C/O', y='O/C')
  7. plot normilied 'Adj. Close' values for both  fixed_ticker and shifted moving_ticker
 </details>
 
-  ## Lesson 5: Fit data with linear models
+  ## Lesson 5: Calculate beta value and moving averages. 
 <details>
-<summary> Fit data with linear models  </summary> 
+<summary>  Calculate beta value and moving averages.  </summary> 
+'''
+- get TSX index [DONE: data/index_GSPTSE.csv]
+- read GSPTSE index as df
+- compare index_GSPTSE to the fixed ticker
+- calculate beta value: covariance(TICKER,GSPTSE)/variance(GSPTSE)
+- calculate simple moving average (SMA)
+- compare 50-200 day SMA
+- compare 15-50 days SMA [DONE]
+- calculate exponential moving average (EMA) [DONE!]
+'''
+
 </details>
 
-## Lesson 6: Download data from API
+
+## Lesson 6: Compare moving averages
+<details>
+<summary>   </summary> 
+</details>
+
+## Lesson 7: interactive graphs
+<details>
+<summary>  </summary> 
+</details>
+
+## Lesson 8: forcast by comparing two stocks
+<details>
+<summary>   </summary> 
+</details>
+
+## Lesson 9: Download data from API
 <details>
 <summary> Download data from API  </summary> 
 </details>
