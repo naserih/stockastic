@@ -29,8 +29,7 @@ tickers_dic = get_tickers_dic(database_path)
 def add_mean_median_volume(tickers_dic):
 	# print (tickers_dic)
 	for ticker  in tickers_dic:
-		full_file_path = os.path.join(database_path,ticker)+'.csv'
-		df = pd.read_csv(full_file_path,thousands=',', header=0, sep=',', index_col=None,)
+		df = pd.read_csv(tickers_dic[ticker]['file_path'],thousands=',', header=0, sep=',', index_col=None,)
 		tickers_dic[ticker]['df'] = df
 		if len(df['Volume']) == 0:
 			tickers_dic[ticker]['mean_volume'] = 0
