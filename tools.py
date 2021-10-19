@@ -89,6 +89,41 @@ def rev_z_score(df_nrm, z_params):
 		df_org[column] = df_org[column]*z_params[column]['std'] + z_params[column]['mean']
 	return df_org
 
+def crop_interval(tickers_dic, ticker, shift, interval, today_date):
+	# convert today_date string into datetime object
+	today_date = datetime.strptime(today_date, '%Y-%m-%d')
+	# read df files from tickers_dic
+	df_orig = read_csv_as_df(tickers_dic[ticker]['file_path'])
+	# convert Date column to datetime 
+	df_orig['Date'] = pd.to_datetime(df_orig['Date'])
+	today_index = np.argmin(abs(df_orig['Date']-today_date))
+
+	df_orig = df_orig.truncate(before=today_index-interval-shift+1, after=today_index-shift)
+	# print(len(df_orig))
+	return df_orig.reset_index()
+
+def calculate_beta(ticker_df, index_df):
+	matrix  = {"ticker":ticker_df['Adj. Close'],
+			   "index":index_df['Adj. Close']}
+	dataFrame  = pd.DataFrame(data=matrix)
+	covariance = dataFrame.cov()
+	variance = dataFrame.var()
+	beta_coef = covariance/variance
+	slope, intercept, r_value, p_value, std_err = linregress(dataFrame['index'], dataFrame['ticker'])
+	return slope
+
+def add_moving_average(ticker_df, windows):
+	for window in windows:
+		ticker_df['SMA_{}'.format(window)] = ticker_df['Adj. Close'].rolling(window= window).mean()
+		ticker_df['EMA_{}'.format(window)] = ticker_df['Adj. Close'].ewm(span=window, adjust=False).mean()
+
+	return ticker_df
+
+def get_gain_label(df, forecast_trade_days):
+	df_nrm, z_params = z_score(df, ['Adj. Close'])
+	X = df_nrm['Adj. Close'][:-forecast_trade_days]
+	Y = df_nrm['Adj. Close'][-forecast_trade_days:]
+
 
 def compare_stocks(tickers_dic, fixed_ticker, moving_ticker, moving_shift, compare_range, today_date, forecast_trade_days):
 	# convert today_date string into datetime object
@@ -129,29 +164,6 @@ def compare_stocks(tickers_dic, fixed_ticker, moving_ticker, moving_shift, compa
 	ax1.plot(cropped_date_mov, cropped_close_mov)
 	plt.show()
 
-def crop_interval(tickers_dic, ticker, shift, interval, today_date):
-	# convert today_date string into datetime object
-	today_date = datetime.strptime(today_date, '%Y-%m-%d')
-	# read df files from tickers_dic
-	df_orig = read_csv_as_df(tickers_dic[ticker]['file_path'])
-	# convert Date column to datetime 
-	df_orig['Date'] = pd.to_datetime(df_orig['Date'])
-	today_index = np.argmin(abs(df_orig['Date']-today_date))
-
-	df_orig = df_orig.truncate(before=today_index-interval-shift+1, after=today_index-shift)
-	# print(len(df_orig))
-	return df_orig.reset_index()
-
-
-def calculate_beta(ticker_df, index_df):
-	matrix  = {"ticker":ticker_df['Adj. Close'],
-			   "index":index_df['Adj. Close']}
-	dataFrame  = pd.DataFrame(data=matrix)
-	covariance = dataFrame.cov()
-	variance = dataFrame.var()
-	beta_coef = covariance/variance
-	slope, intercept, r_value, p_value, std_err = linregress(dataFrame['index'], dataFrame['ticker'])
-	return slope
 
 def plot_stocks(t, ys, legends=[], title = ''):
 	plt.rcParams["figure.figsize"] = [12, 5]
@@ -185,11 +197,5 @@ def plot_index(df_x, df_y):
 	plt.show()
 	# plt.savefig('plots/'+df_x+'.png')
 
-def add_moving_average(ticker_df, windows):
-	for window in windows:
-		ticker_df['SMA_{}'.format(window)] = ticker_df['Adj. Close'].rolling(window= window).mean()
-		ticker_df['EMA_{}'.format(window)] = ticker_df['Adj. Close'].ewm(span=window, adjust=False).mean()
-
-	return ticker_df
 
 

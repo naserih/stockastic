@@ -5,64 +5,33 @@ import numpy as np
 from datetime import datetime,time, timedelta, date
 import matplotlib
 import matplotlib.pyplot as plt
+from tools import *
+
 font = {'family' : 'normal',
         'weight' : 'bold',
         'size'   : 22}
 
 matplotlib.rc('font', **font)
-
 database_path = './data/TSX/20190222'
-
-# read tickers and files.
-def get_tickers_dic(database_path):
-        tickers_dic = {}
-        tickers = [f[:-4] for f in os.listdir(database_path) if ".csv" in f]
-        for ticker in tickers:
-                tickers_dic[ticker] = {'file_path':os.path.join(database_path,ticker)+'.csv',
-                                                                        'ticker':ticker}
-        return tickers_dic
-
-
 tickers_dic = get_tickers_dic(database_path)
-# print (tickers_dic)
-# for ticker  in tickers_dic:
-#         df = pd.read_csv(tickers_dic[ticker]['file_path'],thousands=',', header=0, sep=',', index_col=None,)
-#         tickers_dic[ticker]['df'] = df
-#         if len(df['Volume']) == 0:
-#                 tickers_dic[ticker]['mean_volume'] = 0
-#                 tickers_dic[ticker]['median_volume'] = 0
-#         else:
-#                 tickers_dic[ticker]['mean_volume'] = df['Volume'].mean()
-#                 tickers_dic[ticker]['median_volume'] = df['Volume'].median()
-#         # print(tickers_dic[ticker]['median_volume'])
-
-# sorted_mean_by_volume = sorted(tickers_dic, key=lambda k: tickers_dic[k]['mean_volume'], reverse=True)
-# check to make sure it is working 
-# for i in range(len(sorted_mean_by_volume)):
-#         # print(sorted_mean_by_volume[i], tickers_dic[sorted_mean_by_volume[i]]['mean_volume'])
-#         ticker = sorted_mean_by_volume[i]
-#         order_mean_volume = i
-#         tickers_dic[ticker]['order_mean_volume'] = order_mean_volume
-
-
-# sorted_median_by_volume = sorted(tickers_dic, key=lambda k: tickers_dic[k]['median_volume'], reverse=True) 
-# for i in range(len(sorted_median_by_volume)):
-#         ticker = sorted_median_by_volume[i]
-#         order_median_volume = i
-#         # print(i, ' < ',ticker, ' > ', tickers_dic[ticker]['median_volume'])
-#         tickers_dic[ticker]['order_median_volume'] = order_median_volume
-
-def compare_stocks(tickers_dic, fixed_ticker, moving_ticker, interval, time_shift, today_date, forecast_days):
-        print (tickers_dic[ticker])
-
-# print sorted_median_by_volume
 fixed_ticker = 'AC.TO'
-moving_ticker = 'ACB.TO'
-interval = 160
-forecast_days = 20
-time_shift = 60
-today_date = '2019-02-12'
+probe_ticker = 'ACB.TO'
+index_ticker = 'index_GSPTSE'
 
+shift_val = 60 # trade days difference between fix and moving
+interval_val = 215 # duration o the comparision
+today_date = '2019-02-01' # start of prediction
+forecast_trade_days = 15 # trade days in after today
 
+# index_df = crop_interval(tickers_dic, index_ticker, 0, interval_val, today_date)
+# probe_df = crop_interval(tickers_dic, probe_ticker, shift_val, interval_val, today_date)
+df = crop_interval(tickers_dic, fixed_ticker, 0, interval_val, today_date)
+get_gain_label(df, forecast_trade_days)
+# beta_coef = calculate_beta(fixed_df, index_df)
+# fixed_df = add_moving_average(fixed_df, [15, 50, 200])
 
-# compare_stocks()
+# title = fixed_ticker
+# legends = ['Adj. Close','SMA_15','EMA_15', 'SMA_50', 'EMA50']
+# plot_stocks(fixed_df['Date'], [fixed_df['Adj. Close'], fixed_df['SMA_15'], fixed_df['EMA_15'],
+#         fixed_df['SMA_50'], fixed_df['EMA_50']],
+#         legends=legends, title=title)
