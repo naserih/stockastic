@@ -41,7 +41,7 @@ plot_stocks(fixed_df['Date'], [fixed_df['Adj. Close'], fixed_df['SMA_15'], fixed
 	legends=legends, title=title)
 
 '''
-TODO: lesson 4
+TODO: lesson 5
 - get TSX index [DONE: data/index_GSPTSE.csv]
 - read GSPTSE index as df
 - compare index_GSPTSE to the fixed ticker
@@ -50,4 +50,12 @@ TODO: lesson 4
 - compare 50-200 day SMA
 - compare 15-50 days SMA [DONE]
 - calculate exponential moving average (EMA) [DONE!]
+'''
+
+'''
+TODO: lesson 6
+- write a function to compare stock Close value when EMA15 and EMA50 cross
+- get the rasing or falling sign for crossing point (compare EMAs before and after cross)
+- calculate gain between crossings (Close rasing - close falling)
+- 
 '''

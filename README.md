@@ -176,15 +176,20 @@ df.plot(x='C/O', y='O/C')
 
 ## Lesson 6: Compare moving averages
 <details>
-<summary> Download data from API  </summary> 
+<summary>   </summary> 
 </details>
 
-## Lesson 7: forcast by comparing two stocks
+## Lesson 7: interactive graphs
 <details>
-<summary> Download data from API  </summary> 
+<summary>  </summary> 
 </details>
 
-## Lesson 8: Download data from API
+## Lesson 8: forcast by comparing two stocks
+<details>
+<summary>   </summary> 
+</details>
+
+## Lesson 9: Download data from API
 <details>
 <summary> Download data from API  </summary> 
 </details>
