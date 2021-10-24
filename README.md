@@ -178,10 +178,24 @@ df.plot(x='C/O', y='O/C')
 <details>
 <summary>   </summary> 
 </details>
+TODO: lesson 6
+- write function to compare stock Close value when EMA15 and EMA50 cross
+- get the rasing or falling sign for crossing point (compare EMAs before and after cross)
+- Assign +1 for sell(short) and -1 to buy 
+- get crossing date
+- calculate gain between crossings (Close buy - Close sell)
+- write a for loop to calculate total gain over a given time interval for all stocks
+- store results into a csv file
+- repeat the process for the following:
+    EMAs [9,21] [9,50] [21,100] [21,200] [50,200]
 
 ## Lesson 7: interactive graphs
 <details>
 <summary>  </summary> 
+repeat process for each EMA set from the previous lesson:
+- use diffrent intervals, [500, 250, 160] 
+- use diffrent shifts [0, 262, 583, 874] for each interval
+- Merge the resulted tables into 
 </details>
 
 ## Lesson 8: forcast by comparing two stocks

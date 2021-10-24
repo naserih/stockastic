@@ -33,7 +33,6 @@ def add_mean_median_volume(tickers_dic):
 			tickers_dic[ticker]['mean_volume'] = df['Volume'].mean()
 			tickers_dic[ticker]['median_volume'] = df['Volume'].median()
 		# print(tickers_dic[ticker]['median_volume'])
-
 	return tickers_dic
 
 def sort_by_median_volume(tickers_dic):
@@ -53,6 +52,11 @@ def read_sorted_files_csv(input_file_full_path):
 		csvreader = csv.reader(csvfile)
 		header = next(csvreader)
 		return [f[0] for f in csvreader]
+
+def write_to_csv(array, output_file_full_path):
+	with open (output_file_full_path, 'w', newline='',) as csvfile:
+		csvwriter = csv.writer(csvfile)
+		csvwriter.writerows(array)
 
 def read_csv_as_df(file_path):
 	df = pd.read_csv(file_path,thousands=',', header=0, sep=',', 
@@ -103,21 +107,25 @@ def crop_interval(tickers_dic, ticker, shift, interval, today_date):
 	return df_orig.reset_index()
 
 def calculate_beta(ticker_df, index_df):
-	matrix  = {"ticker":ticker_df['Adj. Close'],
-			   "index":index_df['Adj. Close']}
-	dataFrame  = pd.DataFrame(data=matrix)
-	covariance = dataFrame.cov()
-	variance = dataFrame.var()
+	matrix  = {"ticker":(ticker_df['Adj. Close']-ticker_df['Adj. Close'].shift(1))/ticker_df['Adj. Close'].shift(1),
+			   "index":(index_df['Adj. Close']-index_df['Adj. Close'].shift(1))/index_df['Adj. Close'].shift(1)}
+	df  = pd.DataFrame(data=matrix)
+	df = df.dropna()
+	df = df.fillna(method='ffill')
+	df = df.reset_index()
+	covariance = df.cov()
+	variance = df.var()
 	beta_coef = covariance/variance
-	slope, intercept, r_value, p_value, std_err = linregress(dataFrame['index'], dataFrame['ticker'])
+	slope, intercept, r_value, p_value, std_err = linregress(df['index'], df['ticker'])
+	# print (slope)
 	return slope
 
-def add_moving_average(ticker_df, windows):
+def add_moving_average(df, windows):
 	for window in windows:
-		ticker_df['SMA_{}'.format(window)] = ticker_df['Adj. Close'].rolling(window= window).mean()
-		ticker_df['EMA_{}'.format(window)] = ticker_df['Adj. Close'].ewm(span=window, adjust=False).mean()
+		df['SMA_{}'.format(window)] = df['Adj. Close'].rolling(window= window).mean()
+		df['EMA_{}'.format(window)] = df['Adj. Close'].ewm(span=window, adjust=False).mean()
 
-	return ticker_df
+	return df
 
 def get_gain_label(df, forecast_trade_days):
 	df_nrm, z_params = z_score(df, ['Adj. Close'])
@@ -143,7 +151,7 @@ def compare_stocks(tickers_dic, fixed_ticker, moving_ticker, moving_shift, compa
 	near_todays_fix_date = df_fix['Date'][today_fix_index-160]
 	near_todays_mov_date = df_mov['Date'][today_mov_index-160]
 	
-	print(near_todays_fix_date, near_todays_mov_date)
+	# print(near_todays_fix_date, near_todays_mov_date)
 	# print (df_mov_nrm['Adj. Close'])	
 	# ax1 = plt.subplot(211)
 	# ax1.hist(df_mov_nrm['Adj. Close'],bins=100)
@@ -164,14 +172,46 @@ def compare_stocks(tickers_dic, fixed_ticker, moving_ticker, moving_shift, compa
 	ax1.plot(cropped_date_mov, cropped_close_mov)
 	plt.show()
 
+def compare_ema(df, ema_short, ema_long, ticker):	
+	ema_diff = df[ema_short]-df[ema_long]
+	shifted_ema_diff = ema_diff.shift(-1)
+	# print (ema_diff)
+	ratio = ema_diff/shifted_ema_diff
+	ema_diff[ema_diff>0] = 1 # sell point
+	ema_diff[ema_diff<0] = -1 # buy point
+	matrix  = {"cross_date":df['Date'][ratio<0],
+			   "cross_sign": ema_diff[ratio<0],
+			   "cross_val":df['Adj. Close'][ratio<0]}
+	dataFrame  = pd.DataFrame(data=matrix)
+	# print(df['Date'][ratio<=0])
+	# print (ratio<=0)
 
-def plot_stocks(t, ys, legends=[], title = ''):
-	plt.rcParams["figure.figsize"] = [12, 5]
-	for y in ys:
-		plt.plot(t, y)
+	return ratio<0, dataFrame.reset_index()
+
+
+def calculate_gain(cross_df):
+	gain_value = 0
+	gain_period = 0
+	if len(cross_df['cross_val']>2):	
+		gain_value = ((cross_df['cross_val']-cross_df['cross_val'].shift(-1))*cross_df['cross_sign']/cross_df['cross_val']*100).sum()
+		gain_period = (cross_df['cross_date'][len(cross_df['cross_date'])-1]-cross_df['cross_date'][0]).days
+	return gain_period, gain_value
+
+def plot_stocks(ts, ys, legends=[''], title = '', markers=[''], linestyles=['dashed']):
+	plt.rcParams["figure.figsize"] = [18, 6]
+	for z in zip(ts, ys,markers, linestyles):
+		plt.plot(z[0], z[1], marker=z[2], linestyle=z[3])
 		plt.legend(legends)
 		plt.title(title)
+	return plt
+
+def plt_show(plt):
 	plt.show()
+
+def plt_save(plt, path):
+	plt.savefig(path)
+	# plt.close()
+	plt.clf()
 
 def plot_index(df_x, df_y):
 	# read dataframe for a given ticker
@@ -190,7 +230,7 @@ def plot_index(df_x, df_y):
 			   	"y":df_y['Adj. Close']}
 	dataFrame  = pd.DataFrame(data=matrix)
 	covariance = dataFrame.cov()
-	plt.rcParams["figure.figsize"] = [12, 5]
+	plt.rcParams["figure.figsize"] = [18, 10]
 	dataFrame.plot.scatter(x='x', y='y',c='blue' , title="stock vs index")
 	ax1 = dataFrame.plot.line(x='x_Date', y='x',c='red' , title="stock vs index")
 	dataFrame.plot.line(ax=ax1, x='y_Date', y='y',c='green' , title="stock vs index", secondary_y=True)
