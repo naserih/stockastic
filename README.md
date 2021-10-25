@@ -196,11 +196,27 @@ repeat process for each EMA set from the previous lesson:
 - use diffrent intervals, [500, 250, 160] 
 - use diffrent shifts [0, 262, 583, 874] for each interval
 - Merge the resulted tables into 
+- calculate yearly gain for each interval and normilize the gain df
+- plot y_ema_gain vs beta values
+- find median y_gain for each EMAs methods
+- write the median y_gain values into a csv table
+
 </details>
 
 ## Lesson 8: forcast by comparing two stocks
 <details>
-<summary>   </summary> 
+<summary>   </summary>
+- write a report to:
+  + compare various EMA methods
+  + discuss effect of shift and interval
+  + discuss median and mean gain and their error bars
+  + discuss relation between beta value and EMA y_gain
+  + include histogram of the gains for each EMA.
+  + include overlay plot of gains for each EMA vs beta value
+  + dicuss the effect of volume on beta value
+  + dicsuss effect of volume on the y_ema_gain
+
+
 </details>
 
 ## Lesson 9: Download data from API
