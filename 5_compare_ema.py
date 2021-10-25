@@ -21,7 +21,7 @@ def run_compare(shift_val, interval_val, moving_averages, directory):
 	normal_gain = (index_df['Adj. Close'][len(index_df)-1]-index_df['Adj. Close'][0])/index_df['Adj. Close'][0]*100
 	gains.append([index_ticker, normal_gain, gain_period, gain_value, beta_coef])
 	cnt = 0	
-	plot_names = ['_'.join(f.split('_')[1:8]) for f in os.listdir('plots')]
+	plot_names = ['_'.join(f.split('_')[1:8]) for f in os.listdir('output')]
 	# print(plot_names)
 	for ticker in tickers_sorted[:300]:
 		cnt += 1
@@ -75,14 +75,14 @@ today_date = '2019-02-22' # start of prediction
 shift_vals = [0, 262, 583, 874]
 interval_vals = [500, 250, 160] 
 moving_averages_sets = [[9,21], [9,50], [21,100], [21,200], [50,200]]
-
+ma_method = 'TMA'
 cnt_t = 0
 for  shift_val in shift_vals:
 	for interval_val in interval_vals:
 		for moving_averages in moving_averages_sets:
 			cnt_t += 1
-			ema_short = 'EMA_%i'%moving_averages[0]
-			ema_long = 'EMA_%i'%moving_averages[1]
+			ema_short = '%s_%i'%(ma_method,moving_averages[0])
+			ema_long = '%s_%i'%(ma_method,moving_averages[1])
 			directory = 'output/%s_%i_%i_%s_%s'%(today_date, interval_val, shift_val,ema_long,ema_short)
 			if not os.path.exists(directory):
 				os.makedirs(directory)
