@@ -124,7 +124,8 @@ def add_moving_average(df, windows):
 	for window in windows:
 		df['SMA_{}'.format(window)] = df['Adj. Close'].rolling(window= window).mean()
 		df['EMA_{}'.format(window)] = df['Adj. Close'].ewm(span=window, adjust=False).mean()
-
+		df['TMA_{}'.format(window)] = df['EMA_{}'.format(window)].ewm(span=window, adjust=False).mean()
+		df['TMA_{}'.format(window)] = df['TMA_{}'.format(window)].ewm(span=window, adjust=False).mean()
 	return df
 
 def get_gain_label(df, forecast_trade_days):
