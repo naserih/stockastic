@@ -1,7 +1,7 @@
 #optimized_EMA_ratio.py
 from tools import *
 
-gain_filepath = './output/'
+gain_filepath = './output/gain_csvs/'
 files = [f for f in os.listdir(gain_filepath) if ".csv" in f and 'merged' not in f]
 # print(files)
 
@@ -42,8 +42,8 @@ for col in ema_gain_df.columns:
 		y = ((1+ema_gain_df[col]/100)**inx_rate-1)*100
 		median_gain.append([col,np.median(y)])
 
-print(median_gain)
-write_to_csv(median_gain, ema+'.csv')
+# print(median_gain)
+write_to_csv(median_gain, '%s/median_gain_%s.csv'%('output',ema))
 
 
 inx0 = '160_0_EMA_21_EMA_9'
@@ -76,7 +76,7 @@ plot = plot_stocks([x2, x1,x0],[y2,y1,y0],
 					title= title
 					)
 
-outpath = './plots/0_medianGain_'+inx0[4:]	
+outpath = './output/plots/0_medianGain_'+inx0[4:]	
 # plt_show(plot)
 plt_save(plot, outpath)
 # plt.hist(y0, bins=100, alpha=0.3)

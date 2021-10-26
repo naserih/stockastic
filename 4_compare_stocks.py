@@ -1,9 +1,11 @@
 # from tools import read_sorted_files_csv, add_moving_average, get_tickers_dic, compare_stocks, plot_index, crop_interval, read_csv_as_df, calculate_beta
 from tools import *
+import env
 
-database_path = r"C:\Users\Robbie\Dropbox\stockastic\data\TSX\20190222"
-sorted_by_median_path = r"C:\Users\Robbie\Dropbox\stockastic\data\sorted_tickers_median_volume.csv"
-sorted_by_mean_path = r"C:\Users\Robbie\Dropbox\stockastic\data\sorted_tickers_mean_volume.csv"
+database_path = env.database_path
+sorted_by_median_path = env.sorted_by_median_path
+sorted_by_mean_path = env.sorted_by_mean_path 
+
 index_ticker = 'index_GSPTSE'
 
 tickers_sorted = read_sorted_files_csv(sorted_by_median_path)
@@ -47,6 +49,12 @@ df = crop_interval(tickers_dic, ticker, shift_val, interval_val, today_date)
 
 # 
 df = add_moving_average(df, [15, 50, 200])
+df = add_atr(df, 14)
+
+print (df)
+
+print ('------')
+print (t)
 # print (df.columns)
 # title = ticker
 # legends = ['Adj. Close','EMA_15',  'EMA_50']
