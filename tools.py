@@ -8,6 +8,9 @@ import matplotlib
 import matplotlib.pyplot as plt
 from scipy.stats import linregress
 import pandas_datareader as pdr
+import json
+import urllib.request
+
 
 font = {'family' : 'sans',
 		'weight' : 'bold',
@@ -15,6 +18,11 @@ font = {'family' : 'sans',
 
 matplotlib.rc('font', **font)
 
+def stock_list(url_link):
+	with urllib.request.urlopen(url_link) as url:
+	    data = json.loads(url.read().decode())
+	return data
+	  
 
 def daily_stock_values(ticker, start_date):
 	data = pdr.get_data_yahoo(ticker, start_date)
