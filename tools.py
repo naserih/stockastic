@@ -7,11 +7,19 @@ import csv
 import matplotlib
 import matplotlib.pyplot as plt
 from scipy.stats import linregress
+import pandas_datareader as pdr
+
 font = {'family' : 'sans',
 		'weight' : 'bold',
 		'size'   : 22}
 
 matplotlib.rc('font', **font)
+
+
+def daily_stock_values(ticker, start_date):
+	data = pdr.get_data_yahoo(ticker, start_date)
+	return data
+
 
 def get_tickers_dic(database_path):
 	tickers_dic = {}
@@ -119,6 +127,16 @@ def calculate_beta(ticker_df, index_df):
 	slope, intercept, r_value, p_value, std_err = linregress(df['index'], df['ticker'])
 	# print (slope)
 	return slope
+
+
+def add_atr(df, window=14):
+	high_low = df['High'] - df['Low']
+	high_close = np.abs(df['High'] - df['Adj. Close'].shift())
+	low_close = np.abs(df['Low'] - df['Adj. Close'].shift())
+	ranges = pd.concat([high_low, high_close, low_close], axis=1)
+	true_range = np.max(ranges, axis=1)
+	df['ATR_{}'.format(window)] = true_range.rolling(window).sum()/window
+	return df
 
 def add_moving_average(df, windows):
 	for window in windows:
