@@ -1,16 +1,27 @@
 # 5_compare_ema.py
 from tools import *
+import env
 
-database_path = r"C:\Users\Robbie\Dropbox\stockastic\data\TSX\20190222"
-sorted_by_median_path = r"C:\Users\Robbie\Dropbox\stockastic\data\sorted_tickers_median_volume.csv"
-sorted_by_mean_path = r"C:\Users\Robbie\Dropbox\stockastic\data\sorted_tickers_mean_volume.csv"
+database_path = env.database_path
+sorted_by_median_path = env.sorted_by_median_path
+sorted_by_mean_path = env.sorted_by_mean_path 
+
+
 index_ticker = 'index_GSPTSE'
 
 tickers_sorted = read_sorted_files_csv(sorted_by_median_path)
 tickers_sorted.append(index_ticker)
 tickers_dic = get_tickers_dic(database_path)
 
-def run_compare(shift_val, interval_val, moving_averages, directory):
+out_plots = './output/plots'
+out_csvs = './output/gain_csvs'
+if not os.path.exists(out_csvs):
+	os.makedirs(out_csvs)
+if not os.path.exists(out_plots):
+	os.makedirs(out_plots)
+
+def run_compare(shift_val, interval_val, moving_averages, file_name):
+	directory = '%s/%s'%(out_plots,file_name)
 	gains = [['ticker', 'normal_gain','gain_period', 'ema_gain', 'beta_coef']]
 	index_df = crop_interval(tickers_dic, index_ticker, shift_val, interval_val, today_date)
 	index_df = add_moving_average(index_df, moving_averages)
@@ -43,7 +54,7 @@ def run_compare(shift_val, interval_val, moving_averages, directory):
 		gains.append([ticker, normal_gain, gain_period, gain_value, beta_coef])
 		title = '_%s_%i_%i_%s_%s_Active Days%i_Gain %6.2fp'%(ticker,shift_val, interval_val, ema_long,ema_short, gain_period,gain_value)
 		try:
-			if not os.path.exists(directory+'/'+title+'.png'):
+			if not os.path.exists('%s/%s/%s.png'%(out_plots,file_name,title)):
 				plot = plot_stocks([df['Date'],df['Date'],df['Date'], cross_df['cross_date'][cross_df['cross_sign']<0],
 					cross_df['cross_date'][cross_df['cross_sign']>0],df[ema_short]], 
 							[df['Adj. Close'], df[ema_short],df[ema_long], 
@@ -54,16 +65,16 @@ def run_compare(shift_val, interval_val, moving_averages, directory):
 								title= title
 								)
 				# plt_show(plot)
-				plt_save(plot, directory+'/'+title+'.png')
+				plt_save(plot, '%s/%s/%s.png'%(out_plots,file_name,title))
 			# print(cnt, ticker, '%5.0f%%'%gain_value, end="")
 			# else:
 			# 	print('saved!')
 		except:
 			print ('plot failed: \t', title)
-		if cnt%10 == 0:
-			print("|", end="")
+		# if cnt%10 == 0:
+		# 	print("|")
 	# plot.close('all')
-	write_to_csv(gains,directory+'.csv')
+	write_to_csv(gains,'%s/%s.csv'%(out_csvs,file_name))
 
 
 
@@ -74,8 +85,8 @@ today_date = '2019-02-22' # start of prediction
 
 shift_vals = [0, 262, 583, 874]
 interval_vals = [500, 250, 160] 
-moving_averages_sets = [[9,21], [9,50], [21,100], [21,200], [50,200]]
-ma_method = 'TMA'
+moving_averages_sets = [[9,21], [9,50], [21,100], [21,200], [50,200]][:1]
+ma_method = 'EMA'
 cnt_t = 0
 for  shift_val in shift_vals:
 	for interval_val in interval_vals:
@@ -83,12 +94,10 @@ for  shift_val in shift_vals:
 			cnt_t += 1
 			ema_short = '%s_%i'%(ma_method,moving_averages[0])
 			ema_long = '%s_%i'%(ma_method,moving_averages[1])
-			directory = 'output/%s_%i_%i_%s_%s'%(today_date, interval_val, shift_val,ema_long,ema_short)
-			if not os.path.exists(directory):
-				os.makedirs(directory)
-			if os.path.exists(directory+'.csv'):
+			file_name = '%s_%i_%i_%s_%s'%(today_date, interval_val, shift_val,ema_long,ema_short)
+			if os.path.exists('%s/%s.csv'%(out_csvs,file_name)):
 				print(cnt_t,shift_val,interval_val,moving_averages, ': Processed')
 			else:	
 				print(cnt_t,shift_val,interval_val,moving_averages)
-				run_compare(shift_val, interval_val, moving_averages, directory)
+				run_compare(shift_val, interval_val, moving_averages, file_name)
 			
