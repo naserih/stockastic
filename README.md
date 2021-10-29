@@ -200,6 +200,8 @@ repeat process for each EMA set from the previous lesson:
 - plot y_ema_gain vs beta values
 - find median y_gain for each EMAs methods
 - write the median y_gain values into a csv table
+- Calculate ATR 
+- calculate Triple Exponential Moving Average (TEMA)
 
 </details>
 
@@ -222,5 +224,14 @@ repeat process for each EMA set from the previous lesson:
 ## Lesson 9: Download data from API
 <details>
 <summary> Download data from API  </summary> 
+- get the list of stock tickers for US and CANADA stock exchanges
+- list of tickers for each exchange is dmanually ownloaded from http://eoddata.com/stocklist/
+- download daily historical stock prices for 'TSX', "NASDAQ" and 'NYSE'
+- use `pandas_datareader` Python library to get the historical prices from yahoo finance.
 </details>
 
+## Lesson 10: Working with market simulator
+<details>
+<summary> working with stock API  </summary> 
+
+</details>
