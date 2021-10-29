@@ -20,3 +20,5 @@ scikit-learn
 #pyramid
 #pyramid-arima
 #import_env_file
+plotly
+yfinance

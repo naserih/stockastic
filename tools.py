@@ -18,16 +18,17 @@ font = {'family' : 'sans',
 
 matplotlib.rc('font', **font)
 
-def stock_list(url_link):
-	with urllib.request.urlopen(url_link) as url:
-	    data = json.loads(url.read().decode())
-	return data
 	  
 
-def daily_stock_values(ticker, start_date):
+def get_daily_prices(ticker, start_date):
 	data = pdr.get_data_yahoo(ticker, start_date)
 	return data
 
+def read_tickers_list(ticker_list_path):
+	with open (ticker_list_path, 'r',) as csvfile:
+		csvreader = csv.reader(csvfile, delimiter='\t')
+		header = next(csvreader)
+		return [f[0] for f in csvreader]
 
 def get_tickers_dic(database_path):
 	tickers_dic = {}
